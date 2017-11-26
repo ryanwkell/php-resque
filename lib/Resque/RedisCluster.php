@@ -1,8 +1,8 @@
 <?php
 // Third- party apps may have already loaded Resident from elsewhere
 // so lets be careful.
-if(!class_exists('Redisent', false)) {
-	require_once dirname(__FILE__) . '/../Redisent/Redisent.php';
+if(!class_exists('RedisentCluster', false)) {
+	require_once dirname(__FILE__) . '/../Redisent/RedisentCluster.php';
 }
 
 /**
@@ -13,7 +13,7 @@ if(!class_exists('Redisent', false)) {
  * @author		Chris Boulton <chris@bigcommerce.com>
  * @license		http://www.opensource.org/licenses/mit-license.php
  */
-class Resque_Redis extends Redisent
+class Resque_RedisCluster extends RedisentCluster
 {
     /**
      * Redis namespace
@@ -38,7 +38,7 @@ class Resque_Redis extends Redisent
 		'setnx',
 		'incr',
 		'incrby',
-		'decr',
+		'decrby',
 		'decrby',
 		'rpush',
 		'lpush',
@@ -92,10 +92,10 @@ class Resque_Redis extends Redisent
 	    }
 	    self::$defaultNamespace = $namespace;
 	}
-	
+
 	/**
 	 * Magic method to handle all function requests and prefix key based
-	 * operations with the {self::$defaultNamespace} key prefix.
+	 * operations with the '{self::$defaultNamespace}' key prefix.
 	 *
 	 * @param string $name The name of the method called.
 	 * @param array $args Array of supplied arguments to the method.
@@ -104,7 +104,7 @@ class Resque_Redis extends Redisent
 	public function __call($name, $args) {
 		$args = func_get_args();
 		if(in_array($name, $this->keyCommands)) {
-		    $args[1][0] = self::$defaultNamespace . $args[1][0];
+			$args[1][0] = self::$defaultNamespace . $args[1][0];
 		}
 		try {
 			return parent::__call($name, $args[1]);

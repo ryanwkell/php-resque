@@ -1,40 +1,3 @@
-## 1.3 (2013-??-??) - Current Master ##
-
-**Note:** This release introduces backwards incompatible changes with all previous versions of php-resque. Please see below for details.
-
-### Redisent (Redis Library) Replaced with Credis
-
-Redisent has always been the Redis backend for php-resque because of its lightweight nature. Unfortunately, Redisent is largely unmaintained.
-
-[Credis](https://github.com/colinmollenhour/credis) is a fork of Redisent, which among other improvements will automatically use the [phpredis](https://github.com/nicolasff/phpredis) native PHP extension if it is available. (you want this for speed, trust me)
-
-php-resque now utilizes Credis for all Redis based operations. Credis automatically required and installed as a Composer dependency.
-
-### Composer Support
-
-Composer support has been improved and is now the recommended method for including php-resque in your project. Details on Composer support can be found in the Getting Started section of the readme.
-
-### Improved DSN Support
-
-Changes by iskandar introduce improved support for using DSNs to connect to Redis. You can now utilize the following formatted strings for the REDIS_BACKEND environment variable to connect:
-
-* `host`
-* `host:port`
-* `redis://host:port`
-* `redis://host:port/db`
-* `redis://user:pass@host:port/` (username is required but will be ignored)
-* `tcp://user:pass@host:port/` (username is required but will be ignored)
-
-### Other Improvements/Changes
-
-* **COMPATIBILITY BREAKING**: The bundled worker manager `resque.php` has been moved to `bin/resque`, and is available as `vendor/bin/resque` when php-resque is installed as a Composer package.
-* Restructure tests and test bootstrapping. Autoload tests via Composer (install test dependencies with `composer install --dev`)
-* Add `SETEX` to list of commands which supply a key as the first argument in Redisent (danhunsaker)
-* Fix an issue where a lost connection to Redis could cause an infinite loop (atorres757)
-* Add a helper method to `Resque_Redis` to remove the namespace applied to Redis keys (tonypiper)
-* Call beforePerform hook before retrieivng an instance of the job class (allows beforePerform to cancel a job with DontPerform before initialising your application)
-* Add `beforeEnqueue` hook, called before a job is placed on a queue
-
 ## 1.2 (2012-10-13) ##
 
 **Note:** This release is largely backwards compatible with php-resque 1.1. The next release will introduce backwards incompatible changes (moving from Redisent to Credis), and will drop compatibility with PHP 5.2.
@@ -59,7 +22,7 @@ Changes by iskandar introduce improved support for using DSNs to connect to Redi
 * Add support for Composer
 * Fix missing and incorrect paths for Resque and Resque_Job_Status classes in demo (jjfrey)
 * Disable autoload for the RedisException class_exists call (scragg0x)
-* General tidy up of comments and files/folders
+* General tidyup of comments and files/folders
 
 ## 1.1 (2011-03-27) ##
 

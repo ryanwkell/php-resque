@@ -6,3 +6,4 @@ class Bad_PHP_Job
 		throw new Exception('Unable to run this job!');
 	}
 }
+?>

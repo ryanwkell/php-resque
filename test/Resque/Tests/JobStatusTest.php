@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__) . '/bootstrap.php';
+
 /**
  * Resque_Job_Status tests.
  *
@@ -8,18 +10,12 @@
  */
 class Resque_Tests_JobStatusTest extends Resque_Tests_TestCase
 {
-    /**
-     * @var \Resque_Worker
-     */
-    protected $worker;
-
 	public function setUp()
 	{
 		parent::setUp();
 
 		// Register a worker to test with
 		$this->worker = new Resque_Worker('jobs');
-		$this->worker->setLogger(new Resque_Log());
 	}
 
 	public function testJobStatusCanBeTracked()
@@ -42,7 +38,6 @@ class Resque_Tests_JobStatusTest extends Resque_Tests_TestCase
 		$status = new Resque_Job_Status($token);
 		$this->assertEquals(Resque_Job_Status::STATUS_WAITING, $status->get());
 	}
-
 	public function testRunningJobReturnsRunningStatus()
 	{
 		$token = Resque::enqueue('jobs', 'Failing_Job', null, true);

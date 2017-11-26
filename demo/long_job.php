@@ -6,3 +6,4 @@ class Long_PHP_Job
 		sleep(600);
 	}
 }
+?>
