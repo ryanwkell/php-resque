@@ -143,7 +143,9 @@ class Resque_Job
 			return $this->instance;
 		}
 
-		$this->payload['class'] = base64_decode($this->payload['class']);
+		if(base64_encode(base64_decode($this->payload['class'], true)) == $this->payload['class']){
+		  $this->payload['class'] = base64_decode($this->payload['class']);
+		}
 		
 		if(!class_exists($this->payload['class'])) {
 			throw new Resque_Exception(
